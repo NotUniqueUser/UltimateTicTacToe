@@ -37,3 +37,10 @@ class Board:
             if self.at(perm[0]) == self.at(perm[1]) == self.at(perm[2]):
                 self.won = player
                 return self.won
+        # check for stalemate
+        flag = False
+        for row in self.board:
+            if -1 in row:
+                flag = True
+        if not flag:
+            self.won = flag

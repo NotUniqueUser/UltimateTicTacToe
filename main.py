@@ -10,19 +10,26 @@ PLAYER_DISPLAY = {
     1: "X"
 }
 current_player = 1
+current_board = (-1,-1)
 
 
-def turn(board, square):
-    global current_player
-    print("clicked square", square, "in board", board)
-    c_board = boards[board[0]][board[1]][1]
+def turn(e_board, e_square):
+    global current_player, current_board
+    print("clicked square", e_square, "in board", e_board)
+    clicked_board = boards[e_board[0]][e_board[1]][1]
 
-    c_square = c_board[square[0]][square[1]]
-    c_game = boards[board[0]][board[1]][2]
-    if c_game.at(square) == -1:
-        c_game.place(current_player, square)
-        c_square.config(text=f'{PLAYER_DISPLAY[current_player]}')
+    clicked_square = clicked_board[e_square[0]][e_square[1]]
+    game = boards[e_board[0]][e_board[1]][2]
 
+    if (current_board == (-1, -1) or e_board == current_board) and game.at(e_square) == -1:
+        game.place(current_player, e_square)
+        clicked_square.config(text=f'{PLAYER_DISPLAY[current_player]}')
+
+        if boards[e_square[0]][e_square[1]][2].won == False:
+            boards[e_square[0]][e_square[1]][0].config(bg='yellow')
+            current_board = e_square
+
+        boards[e_board[0]][e_board[1]][0].config(bg='black')
         current_player = PLAYERS[current_player]
         turn_label.config(text=f'{PLAYER_DISPLAY[current_player]} turn')
     else:
@@ -44,7 +51,7 @@ pad.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 for i in range(3):
     for j in range(3):
         board = tk.Frame(master=pad,
-                         width=300, height=300, relief=tk.RAISED, borderwidth=2, bg="yellow")
+                         width=300, height=300, relief=tk.RAISED, borderwidth=2, bg="black")
         board.grid(row=i, column=j)
         game = GameBoard()
         squares = [[None for _ in range(3)] for _ in range(3)]
