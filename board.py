@@ -1,8 +1,8 @@
 PLAYER = {
-    "x": 0,
-    "o": 1,
-    0: "x",
-    1: "o"
+    "x": 1,
+    "o": 0,
+    1: "x",
+    0: "o"
 }
 
 WINNING_MOVES = [
@@ -20,7 +20,7 @@ WINNING_MOVES = [
 class Board:
     def __init__(self):
         self.board = [[-1 for _ in range(3)] for _ in range(3)]
-        self.won = False
+        self.won = -1
 
     def at(self, position):
         return self.board[position[0]][position[1]]
@@ -33,9 +33,11 @@ class Board:
         self.board[position[0]][position[1]] = PLAYER[player]
 
         # check for winning player
+        print('checking if',PLAYER[player],'won')
         for perm in WINNING_MOVES:
-            if self.at(perm[0]) == self.at(perm[1]) == self.at(perm[2]):
+            if self.at(perm[0]) == self.at(perm[1]) == self.at(perm[2]) != -1:
                 self.won = player
+                print("player", PLAYER[player], "won")
                 return self.won
         # check for stalemate
         flag = False
@@ -43,4 +45,5 @@ class Board:
             if -1 in row:
                 flag = True
         if not flag:
-            self.won = flag
+            self.won = None
+            print('stalemate')
