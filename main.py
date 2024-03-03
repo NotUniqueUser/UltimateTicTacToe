@@ -55,11 +55,15 @@ def turn(e_board, e_square):
         else:
             board_display.config(bg='black')
 
+        # did anyone win this round?
         if check_winner():
             print("WINNER")
             for bs in boards:
                 for b in bs:
                     b[0].config(bg=COLOR[game.won])
+            turn_label.config(text=f'{PLAYER_DISPLAY[current_player]} WINS!')
+            return
+
         # Should the next move be on a specific board?
         next_board = boards[e_square[0]][e_square[1]]
         if next_board[2].won == -1:
