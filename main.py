@@ -82,8 +82,8 @@ def turn(e_board, e_square):
 window = tk.Tk()
 
 window.title("UltimateTicTacToe")
-window.minsize(width=1200, height=1000)
-window.resizable(False, False)
+window.minsize(width=600, height=500)
+window.maxsize(width=1200, height=1000)
 
 turn_label = tk.Label(window, text="X turn")
 turn_label.place(relx=0.5, rely=0.05, anchor=tk.CENTER)
@@ -94,7 +94,7 @@ pad.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 for i in range(3):
     for j in range(3):
         board = tk.Frame(master=pad,
-                         width=300, height=300, borderwidth=2, bg="black")
+                         width=150, height=150, borderwidth=2, bg="black")
         board.grid(row=i, column=j)
         game = GameBoard()
         squares = [[None for _ in range(3)] for _ in range(3)]
